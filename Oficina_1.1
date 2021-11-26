@@ -1,0 +1,76 @@
+'''
+Oficina Aula 1.1
+
+Depois de aprender bastante sobre programação funcional nesta aula, chegou o momento de colocar seus conhecimentos em prática para resolver o problema proposto nesta oficina. Para isso, imagine o seguinte caso:
+
+Você foi chamado para trabalhar como novo programador Python para o aplicativo Spotify, analisando as avaliações de músicas pelos usuários. O seu chefe está muito entusiasmado com a sua chegada e já pensou em várias perguntas para você responder. Ele coletou diversas avaliações dos gêneros musicais Rock e Pop.
+
+Em cada avaliação o usuário pode dar uma nota em quantidade de estrelas para uma música, de 1 a 5. Ele quer que você mapeie as avaliações numéricas em categorias: entre 0 e 1 estrelas é uma música ruim, entre 2 e 3 é uma música mediana e entre 4 e 5 são para as músicas boas. O seu papel é dizer para o seu chefe quantas músicas ruins, medianas e boas existem para cada gênero: Rock e Pop.
+
+Além disso, ele quer saber se existe alguma música mediana de Rock e se todas as músicas de Pop são boas. Por fim, quer saber qual gênero musical teve uma maior quantidade de músicas boas. Abaixo seguem as notas de cada gênero.
+
+notas_rock = [5, 1, 4, 0, 2, 5, 2, 1, 0, 5, 5, 3, 5, 2, 5, 5, 3, 5, 4, 4]
+notas_pop = [3, 2, 5, 1, 2, 1, 4, 1, 5, 0, 4, 2, 1, 2, 5, 2, 4, 4, 0, 1]
+
+Pronto, com essas informações você pode começar a desenvolver um programa em Python capaz de responder as perguntas do seu chefe.
+
+Boa prática!
+'''
+
+
+notas_rock = [5, 1, 4, 0, 2, 5, 2, 1, 0, 5, 5, 3, 5, 2, 5, 5, 3, 5, 4, 4]
+notas_pop = [3, 2, 5, 1, 2, 1, 4, 1, 5, 0, 4, 2, 1, 2, 5, 2, 4, 4, 0, 1]
+
+def categoria(nota):
+    if nota < 2:
+       return 'ruim'
+    elif 2 <= nota <= 3:
+       return 'mediana'
+    else:
+       return 'boa'
+
+def maior_qtde_musicas_boas(musicas_genero_1_boas, genero_1, musicas_genero_2_boas, genero_2):
+    qtde_1 = len(musicas_genero_1_boas)   
+    qtde_2 = len(musicas_genero_2_boas)   
+    if qtde_1 > qtde_2:
+       return genero_1
+    elif qtde_1 < qtde_2:
+       return genero_2
+    else:
+       return genero_1+' = '+genero_2
+
+def resposta_sim_nao(resposta):
+    if resposta:
+       return 'Sim'
+    else:
+       return 'Não'
+
+classificacao_rock = list(map(categoria, notas_rock))
+classificacao_pop = list(map(categoria, notas_pop))
+
+musicas_rock_ruins = list(filter(lambda x: x == 'ruim', classificacao_rock))
+musicas_rock_medianas = list(filter(lambda x: x == 'mediana', classificacao_rock))
+musicas_rock_boas = list(filter(lambda x: x == 'boa', classificacao_rock))
+
+musicas_rock_medianas_booleano = list(map(lambda x: x == 'mediana', classificacao_rock))
+
+musicas_pop_ruins = list(filter(lambda x: x == 'ruim', classificacao_pop))
+musicas_pop_medianas = list(filter(lambda x: x == 'mediana', classificacao_pop))
+musicas_pop_boas = list(filter(lambda x: x == 'boa', classificacao_pop))
+
+musicas_pop_boas_booleano = list(map(lambda x: x == 'boa', classificacao_pop))
+
+print('Número de músicas por gênero - Rock')
+print('Ruins: ', len(musicas_rock_ruins))
+print('Medianas: ', len(musicas_rock_medianas))
+print('Boas: ', len(musicas_rock_boas))
+print('Existe música mediana de Rock?', resposta_sim_nao(any(musicas_rock_medianas_booleano)))
+print(' ')
+print('Número de músicas por gênero - Pop')
+print('Ruins: ', len(musicas_pop_ruins))
+print('Medianas: ', len(musicas_pop_medianas))
+print('Boas: ', len(musicas_pop_boas))
+print('Todas as músicas de Pop são boas?', resposta_sim_nao(all(musicas_pop_boas_booleano)))
+print(' ')
+
+print('Gênero com maior quantidade de músicas boas: ', maior_qtde_musicas_boas(musicas_rock_boas, 'Rock', musicas_pop_boas, 'Pop'))
